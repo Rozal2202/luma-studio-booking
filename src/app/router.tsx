@@ -3,6 +3,9 @@ import { createBrowserRouter } from 'react-router-dom';
 import { PagePlaceholder } from '../components/PagePlaceholder';
 import { AdminLayout } from '../layouts/AdminLayout';
 import { PublicLayout } from '../layouts/PublicLayout';
+import { HomePage } from '../features/public/pages/HomePage';
+import { ServicesPage } from '../features/public/pages/ServicesPage';
+import { PortfolioPage } from '../features/public/pages/PortfolioPage';
 
 export const router = createBrowserRouter([
     {
@@ -11,30 +14,24 @@ export const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: (
-                    <PagePlaceholder
-                        title="Book your perfect photo session online"
-                        description="Choose a service, select an available date, and reserve your session in a few simple steps."
-                    />
-                ),
+                element: <HomePage />,
             },
             {
                 path: 'services',
+                element: <ServicesPage />,
+            },
+            {
+                path: 'services/:serviceSlug',
                 element: (
                     <PagePlaceholder
-                        title="Photography Services"
-                        description="Elevate your visual storytelling with tailored photography sessions."
+                        title="Service Details"
+                        description="Detailed service page will be implemented in the booking milestone."
                     />
                 ),
             },
             {
                 path: 'portfolio',
-                element: (
-                    <PagePlaceholder
-                        title="Portfolio"
-                        description="A curated selection of our finest work."
-                    />
-                ),
+                element: <PortfolioPage />,
             },
             {
                 path: 'booking',

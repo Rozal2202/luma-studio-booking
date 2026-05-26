@@ -26,6 +26,7 @@ export function PublicLayout() {
                         alignItems="center"
                         justifyContent="space-between"
                         sx={{ minHeight: 72 }}
+                        spacing={10}
                     >
                         <Typography
                             component={NavLink}
@@ -61,7 +62,6 @@ export function PublicLayout() {
                                 </Typography>
                             ))}
                         </Stack>
-
                         <Button component={NavLink} to="/booking" variant="contained">
                             Book a session
                         </Button>

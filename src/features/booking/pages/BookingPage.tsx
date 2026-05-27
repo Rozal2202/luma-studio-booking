@@ -20,9 +20,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-
-import { services } from '../../../data/services';
-import { availabilitySlots } from '../../../data/availabilitySlots';
+import { getAvailabilitySlots, getServices } from '../../../utils/appDataStorage';
 import type { AvailabilitySlot, Customer, Reservation } from '../../../models/reservation';
 import type { Service } from '../../../models/service';
 import { formatDateTimeRange } from '../../../utils/date';
@@ -52,9 +50,18 @@ export function BookingPage() {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
 
+    const appServices = useMemo(
+        () => getServices().filter((service) => service.isActive ?? true),
+        []
+    );
+
+    const appAvailabilitySlots = useMemo(() => getAvailabilitySlots(), []);
+
     const serviceFromUrl = searchParams.get('service');
 
-    const initialService = services.find((service) => service.slug === serviceFromUrl);
+    const initialService = appServices.find(
+        (service) => service.slug === serviceFromUrl
+    );
 
     const [activeStep, setActiveStep] = useState(0);
     const [selectedServiceId, setSelectedServiceId] = useState<string | null>(
@@ -64,8 +71,8 @@ export function BookingPage() {
     const [customerData, setCustomerData] = useState<BookingFormValues | null>(null);
 
     const selectedService = useMemo<Service | null>(() => {
-        return services.find((service) => service.id === selectedServiceId) ?? null;
-    }, [selectedServiceId]);
+        return appServices.find((service) => service.id === selectedServiceId) ?? null;
+    }, [appServices, selectedServiceId]);
 
     const bookedSlotIds = useMemo(() => {
         const blockingStatuses = ['new', 'confirmed', 'reschedule_requested'] as const;
@@ -82,17 +89,17 @@ export function BookingPage() {
             return [];
         }
 
-        return availabilitySlots.filter(
+        return appAvailabilitySlots.filter(
             (slot) =>
                 slot.serviceId === selectedService.id &&
                 slot.isAvailable &&
                 !bookedSlotIds.has(slot.id)
         );
-    }, [selectedService, bookedSlotIds]);
+    }, [appAvailabilitySlots, bookedSlotIds, selectedService]);
 
     const selectedSlot = useMemo<AvailabilitySlot | null>(() => {
-        return availabilitySlots.find((slot) => slot.id === selectedSlotId) ?? null;
-    }, [selectedSlotId]);
+        return appAvailabilitySlots.find((slot) => slot.id === selectedSlotId) ?? null;
+    }, [appAvailabilitySlots, selectedSlotId]);
 
     const {
         register,
@@ -210,7 +217,7 @@ export function BookingPage() {
                                     gap: 3,
                                 }}
                             >
-                                {services.map((service) => {
+                                {appServices.map((service) => {
                                     const isSelected = selectedServiceId === service.id;
 
                                     return (

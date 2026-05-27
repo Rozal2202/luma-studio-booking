@@ -101,3 +101,9 @@ export function generateReservationId() {
 
     return `LMA-${number}`;
 }
+
+
+export function clearReservations() {
+    localStorage.removeItem(RESERVATIONS_STORAGE_KEY);
+    localStorage.removeItem(LAST_RESERVATION_STORAGE_KEY);
+}

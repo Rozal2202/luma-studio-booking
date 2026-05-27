@@ -6,6 +6,8 @@ export type PortfolioItem = {
     category: ServiceCategory;
     categoryLabel: string;
     description: string;
+    isVisible?: boolean;
+    displayOrder?: number;
     visual: {
         background: string;
         alt: string;

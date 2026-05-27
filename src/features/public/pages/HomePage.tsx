@@ -1,15 +1,29 @@
+import { useMemo } from 'react';
 import { Box, Button, Card, Stack, Typography } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { Link as RouterLink } from 'react-router-dom';
 
 import { SectionHeader } from '../../../components/SectionHeader';
 import { ServiceCard } from '../../../components/ServiceCard';
-import { services } from '../../../data/services';
-import { portfolioItems } from '../../../data/portfolioItems';
+import { getPortfolioItems, getServices } from '../../../utils/appDataStorage';
 
 export function HomePage() {
-    const featuredServices = services.slice(0, 3);
-    const featuredPortfolio = portfolioItems.slice(0, 4);
+    const featuredServices = useMemo(
+        () =>
+            getServices()
+                .filter((service) => service.isActive ?? true)
+                .slice(0, 3),
+        []
+    );
+
+    const featuredPortfolio = useMemo(
+        () =>
+            getPortfolioItems()
+                .filter((item) => item.isVisible ?? true)
+                .sort((a, b) => (a.displayOrder ?? 999) - (b.displayOrder ?? 999))
+                .slice(0, 4),
+        []
+    );
 
     return (
         <Box>

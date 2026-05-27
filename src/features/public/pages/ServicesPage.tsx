@@ -7,7 +7,7 @@ import {
 } from '../../../components/CategoryFilters';
 import { SectionHeader } from '../../../components/SectionHeader';
 import { ServiceCard } from '../../../components/ServiceCard';
-import { services } from '../../../data/services';
+import { getServices } from '../../../utils/appDataStorage';
 import type { ServiceCategory } from '../../../models/service';
 
 type ServicesFilter = 'all' | ServiceCategory;
@@ -24,13 +24,18 @@ const filterOptions: CategoryFilterOption<ServicesFilter>[] = [
 export function ServicesPage() {
     const [selectedCategory, setSelectedCategory] = useState<ServicesFilter>('all');
 
+    const allServices = useMemo(
+        () => getServices().filter((service) => service.isActive ?? true),
+        []
+    );
+
     const filteredServices = useMemo(() => {
         if (selectedCategory === 'all') {
-            return services;
+            return allServices;
         }
 
-        return services.filter((service) => service.category === selectedCategory);
-    }, [selectedCategory]);
+        return allServices.filter((service) => service.category === selectedCategory);
+    }, [allServices, selectedCategory]);
 
     return (
         <Box sx={{ py: { xs: 8, md: 12 } }}>

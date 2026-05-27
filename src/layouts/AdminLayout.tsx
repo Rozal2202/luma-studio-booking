@@ -1,5 +1,6 @@
 import {
     Box,
+    Button,
     ButtonBase,
     Divider,
     Stack,
@@ -9,13 +10,15 @@ import {
 import {
     CalendarMonth,
     Dashboard,
+    Home,
     Image,
+    Person,
     PhotoCamera,
     Settings,
     ViewList,
 } from '@mui/icons-material';
-import { NavLink, Outlet } from 'react-router-dom';
-
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { getAdminSession, signOutAdmin } from '../utils/adminAuth';
 const sidebarWidth = 280;
 
 const adminNavItems = [
@@ -28,18 +31,34 @@ const adminNavItems = [
 ];
 
 export function AdminLayout() {
+    const navigate = useNavigate();
+    const adminSession = getAdminSession();
+
+    function handleSignOut() {
+        signOutAdmin();
+        navigate('/admin/login', { replace: true });
+    }
     return (
-        <Box minHeight="100vh" display="flex" bgcolor="background.default">
+        <Box
+            sx={{
+                minHeight: '100vh',
+                display: 'flex',
+                bgcolor: 'background.default',
+            }}
+        >
             <Box
                 component="aside"
                 sx={{
                     width: sidebarWidth,
+                    minHeight: '100vh',
                     flexShrink: 0,
                     borderRight: '1px solid',
                     borderColor: 'divider',
                     bgcolor: '#f5f3f3',
                     display: { xs: 'none', md: 'flex' },
                     flexDirection: 'column',
+                    position: 'sticky',
+                    top: 0,
                 }}
             >
                 <Box sx={{ p: 3 }}>
@@ -69,8 +88,9 @@ export function AdminLayout() {
                                     gap: 2,
                                     px: 2,
                                     py: 1.5,
-                                    borderRadius: 2,
+                                    borderRadius: 999,
                                     color: 'text.primary',
+                                    width: '100%',
                                     '&.active': {
                                         bgcolor: '#fed488',
                                         color: '#261900',
@@ -85,14 +105,54 @@ export function AdminLayout() {
                 </Stack>
 
                 <Box sx={{ mt: 'auto', p: 3 }}>
-                    <Typography fontWeight={600}>Admin User</Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        Sign out
+                    <Stack spacing={1.5} sx={{ mb: 3 }}>
+                        <Button
+                            component={NavLink}
+                            to="/"
+                            variant="outlined"
+                            startIcon={<Home />}
+                            fullWidth
+                        >
+                            Public site
+                        </Button>
+
+                        <Button
+                            component={NavLink}
+                            to="/reservation-status"
+                            variant="outlined"
+                            startIcon={<Person />}
+                            fullWidth
+                        >
+                            Client panel
+                        </Button>
+                    </Stack>
+
+                    <Typography fontWeight={600}>
+                        {adminSession?.email ?? 'Admin User'}
                     </Typography>
+
+                    <Button
+                        variant="text"
+                        color="secondary"
+                        onClick={handleSignOut}
+                        sx={{
+                            justifyContent: 'flex-start',
+                            px: 0,
+                        }}
+                    >
+                        Sign out
+                    </Button>
                 </Box>
             </Box>
 
-            <Box flex={1} minWidth={0}>
+            <Box
+                sx={{
+                    flex: 1,
+                    minWidth: 0,
+                    display: 'flex',
+                    flexDirection: 'column',
+                }}
+            >
                 <Box
                     component="header"
                     sx={{
@@ -104,6 +164,9 @@ export function AdminLayout() {
                         display: 'flex',
                         alignItems: 'center',
                         gap: 3,
+                        position: 'sticky',
+                        top: 0,
+                        zIndex: 10,
                     }}
                 >
                     <Typography variant="h4" sx={{ whiteSpace: 'nowrap' }}>
@@ -117,7 +180,14 @@ export function AdminLayout() {
                     />
                 </Box>
 
-                <Box component="main" sx={{ px: { xs: 2, md: 8 }, py: { xs: 4, md: 8 } }}>
+                <Box
+                    component="main"
+                    sx={{
+                        flex: 1,
+                        px: { xs: 2, md: 8 },
+                        py: { xs: 4, md: 8 },
+                    }}
+                >
                     <Outlet />
                 </Box>
             </Box>

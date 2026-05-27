@@ -6,7 +6,7 @@ import {
     type CategoryFilterOption,
 } from '../../../components/CategoryFilters';
 import { SectionHeader } from '../../../components/SectionHeader';
-import { portfolioItems } from '../../../data/portfolioItems';
+import { getPortfolioItems } from '../../../utils/appDataStorage';
 import type { ServiceCategory } from '../../../models/service';
 
 type PortfolioFilter = 'all' | ServiceCategory;
@@ -22,14 +22,21 @@ const filterOptions: CategoryFilterOption<PortfolioFilter>[] = [
 
 export function PortfolioPage() {
     const [selectedCategory, setSelectedCategory] = useState<PortfolioFilter>('all');
+    const allPortfolioItems = useMemo(
+        () =>
+            getPortfolioItems()
+                .filter((item) => item.isVisible ?? true)
+                .sort((a, b) => (a.displayOrder ?? 999) - (b.displayOrder ?? 999)),
+        []
+    );
 
     const filteredItems = useMemo(() => {
         if (selectedCategory === 'all') {
-            return portfolioItems;
+            return allPortfolioItems;
         }
 
-        return portfolioItems.filter((item) => item.category === selectedCategory);
-    }, [selectedCategory]);
+        return allPortfolioItems.filter((item) => item.category === selectedCategory);
+    }, [allPortfolioItems, selectedCategory]);
 
     return (
         <Box sx={{ py: { xs: 8, md: 12 } }}>

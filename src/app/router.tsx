@@ -11,6 +11,17 @@ import { BookingConfirmationPage } from '../features/booking/pages/BookingConfir
 import { ReservationStatusPage } from '../features/customer/pages/ReservationStatusPage';
 import { AdminDashboardPage } from '../features/admin/pages/AdminDashboardPage';
 import { AdminReservationsPage } from '../features/admin/pages/AdminReservationsPage';
+import { AdminServicesPage } from '../features/admin/pages/AdminServicesPage';
+import { AdminAvailabilityPage } from '../features/admin/pages/AdminAvailabilityPage';
+import { AdminPortfolioPage } from '../features/admin/pages/AdminPortfolioPage';
+import { ServiceDetailsPage } from '../features/public/pages/ServiceDetailsPage';
+import { ContactPage } from '../features/public/pages/ContactPage';
+import { PrivacyPolicyPage } from '../features/legal/pages/PrivacyPolicyPage';
+import { TermsPage } from '../features/legal/pages/TermsPage';
+import { CookiesPage } from '../features/legal/pages/CookiesPage';
+import { AdminSettingsPage } from '../features/admin/pages/AdminSettingsPage';
+import { AdminLoginPage } from '../features/admin/pages/AdminLoginPage';
+import { ProtectedAdminRoute } from '../features/admin/components/ProtectedAdminRoute';
 
 export const router = createBrowserRouter([
     {
@@ -27,12 +38,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'services/:serviceSlug',
-                element: (
-                    <PagePlaceholder
-                        title="Service Details"
-                        description="Detailed service page will be implemented in the booking milestone."
-                    />
-                ),
+                element: <ServiceDetailsPage />,
             },
             {
                 path: 'portfolio',
@@ -52,34 +58,33 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'contact',
-                element: (
-                    <PagePlaceholder
-                        title="Contact"
-                        description="Reach out to Luma Studio."
-                    />
-                ),
+                element: <ContactPage />,
             },
             {
                 path: 'privacy-policy',
-                element: <PagePlaceholder title="Privacy Policy" />,
+                element: <PrivacyPolicyPage />,
             },
             {
                 path: 'terms',
-                element: <PagePlaceholder title="Terms of Service" />,
+                element: <TermsPage />,
             },
             {
                 path: 'cookies',
-                element: <PagePlaceholder title="Cookie Policy" />,
+                element: <CookiesPage />,
             },
         ],
     },
     {
         path: '/admin/login',
-        element: <PagePlaceholder title="Admin Login" />,
+        element: <AdminLoginPage />,
     },
     {
         path: '/admin',
-        element: <AdminLayout />,
+        element: (
+            <ProtectedAdminRoute>
+                <AdminLayout />
+            </ProtectedAdminRoute>
+        ),
         children: [
             {
                 index: true,
@@ -91,19 +96,19 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'services',
-                element: <PagePlaceholder title="Services" />,
+                element: <AdminServicesPage />,
             },
             {
                 path: 'availability',
-                element: <PagePlaceholder title="Availability" />,
+                element: <AdminAvailabilityPage />,
             },
             {
                 path: 'portfolio',
-                element: <PagePlaceholder title="Portfolio" />,
+                element: <AdminPortfolioPage />,
             },
             {
                 path: 'settings',
-                element: <PagePlaceholder title="Settings" />,
+                element: <AdminSettingsPage />,
             },
         ],
     },

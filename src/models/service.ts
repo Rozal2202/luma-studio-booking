@@ -16,6 +16,7 @@ export type Service = {
     description: string;
     durationLabel: string;
     priceLabel: string;
+    isActive?: boolean;
     visual: {
         background: string;
         label: string;

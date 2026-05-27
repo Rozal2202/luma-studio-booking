@@ -6,6 +6,8 @@ import { PublicLayout } from '../layouts/PublicLayout';
 import { HomePage } from '../features/public/pages/HomePage';
 import { ServicesPage } from '../features/public/pages/ServicesPage';
 import { PortfolioPage } from '../features/public/pages/PortfolioPage';
+import { BookingPage } from '../features/booking/pages/BookingPage';
+import { BookingConfirmationPage } from '../features/booking/pages/BookingConfirmationPage';
 
 export const router = createBrowserRouter([
     {
@@ -35,12 +37,11 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'booking',
-                element: (
-                    <PagePlaceholder
-                        title="Reserve Your Session"
-                        description="Follow the steps below to secure your time in the studio."
-                    />
-                ),
+                element: <BookingPage />,
+            },
+            {
+                path: 'booking/confirmed',
+                element: <BookingConfirmationPage />,
             },
             {
                 path: 'reservation-status',

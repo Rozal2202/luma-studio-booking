@@ -6,7 +6,7 @@ const navItems = [
     { label: 'Services', path: '/services' },
     { label: 'Portfolio', path: '/portfolio' },
     { label: 'Booking', path: '/booking' },
-    { label: 'Contact', path: '/contact' },
+    { label: 'Client panel', path: '/reservation-status' },
 ];
 
 export function PublicLayout() {

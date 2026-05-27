@@ -8,6 +8,7 @@ import { ServicesPage } from '../features/public/pages/ServicesPage';
 import { PortfolioPage } from '../features/public/pages/PortfolioPage';
 import { BookingPage } from '../features/booking/pages/BookingPage';
 import { BookingConfirmationPage } from '../features/booking/pages/BookingConfirmationPage';
+import { ReservationStatusPage } from '../features/customer/pages/ReservationStatusPage';
 
 export const router = createBrowserRouter([
     {
@@ -45,12 +46,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'reservation-status',
-                element: (
-                    <PagePlaceholder
-                        title="Reservation Status"
-                        description="Track the progress of your upcoming session."
-                    />
-                ),
+                element: <ReservationStatusPage />,
             },
             {
                 path: 'contact',

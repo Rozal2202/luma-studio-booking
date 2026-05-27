@@ -7,6 +7,7 @@ const navItems = [
     { label: 'Portfolio', path: '/portfolio' },
     { label: 'Booking', path: '/booking' },
     { label: 'Client panel', path: '/reservation-status' },
+    { label: 'Admin', path: '/admin' },
 ];
 
 export function PublicLayout() {
@@ -26,7 +27,7 @@ export function PublicLayout() {
                         alignItems="center"
                         justifyContent="space-between"
                         sx={{ minHeight: 72 }}
-                        spacing={10}
+                        spacing={5}
                     >
                         <Typography
                             component={NavLink}
@@ -101,6 +102,9 @@ export function PublicLayout() {
                         </Box>
 
                         <Stack spacing={1}>
+                            <Typography component={NavLink} to="/admin">
+                                Admin panel
+                            </Typography>
                             <Typography component={NavLink} to="/privacy-policy">
                                 Privacy Policy
                             </Typography>
@@ -111,11 +115,6 @@ export function PublicLayout() {
                                 Cookie Policy
                             </Typography>
                         </Stack>
-
-                        <Typography color="text.secondary">
-                            © 2026 Luma Studio. All rights reserved.
-                        </Typography>
-                    </Stack>
                 </Container>
             </Box>
         </Box>

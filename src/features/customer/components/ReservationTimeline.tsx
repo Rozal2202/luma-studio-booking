@@ -8,7 +8,7 @@ import {
     useTheme,
 } from '@mui/material';
 
-import type { ReservationStatus } from '../../../../models/reservation';
+import type { ReservationStatus } from '../../../models/reservation';
 
 type ReservationTimelineProps = {
     status: ReservationStatus;

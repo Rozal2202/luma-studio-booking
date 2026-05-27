@@ -9,6 +9,8 @@ import { PortfolioPage } from '../features/public/pages/PortfolioPage';
 import { BookingPage } from '../features/booking/pages/BookingPage';
 import { BookingConfirmationPage } from '../features/booking/pages/BookingConfirmationPage';
 import { ReservationStatusPage } from '../features/customer/pages/ReservationStatusPage';
+import { AdminDashboardPage } from '../features/admin/pages/AdminDashboardPage';
+import { AdminReservationsPage } from '../features/admin/pages/AdminReservationsPage';
 
 export const router = createBrowserRouter([
     {
@@ -81,21 +83,11 @@ export const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: (
-                    <PagePlaceholder
-                        title="Overview"
-                        description="Here's what's happening at Luma Studio today."
-                    />
-                ),
+                element: <AdminDashboardPage />,
             },
             {
                 path: 'reservations',
-                element: (
-                    <PagePlaceholder
-                        title="Reservations"
-                        description="Manage incoming bookings, studio sessions, and client schedules."
-                    />
-                ),
+                element: <AdminReservationsPage />,
             },
             {
                 path: 'services',

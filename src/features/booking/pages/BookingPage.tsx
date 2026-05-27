@@ -28,6 +28,7 @@ import type { Service } from '../../../models/service';
 import { formatDateTimeRange } from '../../../utils/date';
 import {
     generateReservationId,
+    getReservations,
     saveReservation,
 } from '../../../utils/reservationStorage';
 
@@ -66,15 +67,28 @@ export function BookingPage() {
         return services.find((service) => service.id === selectedServiceId) ?? null;
     }, [selectedServiceId]);
 
+    const bookedSlotIds = useMemo(() => {
+        const blockingStatuses = ['new', 'confirmed', 'reschedule_requested'] as const;
+
+        return new Set(
+            getReservations()
+                .filter((reservation) => blockingStatuses.includes(reservation.status as typeof blockingStatuses[number]))
+                .map((reservation) => reservation.slot.id)
+        );
+    }, []);
+
     const availableSlots = useMemo<AvailabilitySlot[]>(() => {
         if (!selectedService) {
             return [];
         }
 
         return availabilitySlots.filter(
-            (slot) => slot.serviceId === selectedService.id && slot.isAvailable
+            (slot) =>
+                slot.serviceId === selectedService.id &&
+                slot.isAvailable &&
+                !bookedSlotIds.has(slot.id)
         );
-    }, [selectedService]);
+    }, [selectedService, bookedSlotIds]);
 
     const selectedSlot = useMemo<AvailabilitySlot | null>(() => {
         return availabilitySlots.find((slot) => slot.id === selectedSlotId) ?? null;

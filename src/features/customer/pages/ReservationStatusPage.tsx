@@ -23,7 +23,7 @@ import {
     getReservationById,
     updateReservationStatus,
 } from '../../../utils/reservationStorage';
-import { ReservationTimeline } from './components/ReservationTimeline';
+import { ReservationTimeline } from '../components/ReservationTimeline';
 
 export function ReservationStatusPage() {
     const lastReservation = useMemo(() => getLastReservation(), []);
